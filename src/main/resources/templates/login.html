@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link href="../static/css/loginRegistrar.css" rel="stylesheet" type="text/css" th:href="@{/css/loginRegistrar.css}" />
+		<title>Login</title>
+	</head>
+	<body>
+		<h1 class="titulo">WebLib</h1>
+		
+		<div class="login-page">
+			<div class="form" th:fragment="content">
+				<form name="f" th:action="@{/login}" method="post" class="login-form">
+					<fieldset>
+						<legend>Logar</legend>
+						<div th:if="${param.error}">
+							<font color="red">Nome de usuário ou senha inválidos</font>
+						</div>
+						<div th:if="${param.logout}" class="alert alert-success"> 
+	                    	Você deslogou
+	                	</div>
+						<input type="text" id="username" name="username" placeholder="Nome de usuário"/>
+						<input type="password" id="password" name="password" placeholder="Senha"/>
+						<div class="form-actions">
+							<button type="submit">LOGIN</button>
+						</div>
+						<p class="mensagem">Não registrado? 
+							<a href="/registrar">Criar conta</a>
+						</p>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

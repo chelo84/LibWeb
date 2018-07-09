@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link href="../static/css/loginRegistrar.css" rel="stylesheet" type="text/css" th:href="@{/css/loginRegistrar.css}" />
+		<title>Registrar</title>
+	</head>
+	<body>
+		<h1 class="titulo">WebLib</h1>
+	
+		<div class="login-page">
+			<div class="form" th:fragment="content">
+				<form name="f" th:action="@{/registrar}" th:object="${usuarioForm}" method="post" class="login-form">
+					<fieldset>
+						<legend>Registrar</legend>
+ 						<p th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="erro"></p>
+						<input type="text" th:field="*{nome}" placeholder="Nome"/>
+						
+						<p th:if="${#fields.hasErrors('sobrenome')}" th:errors="*{sobrenome}" class="erro"></p>
+						<input type="text" th:field="*{sobrenome}" placeholder="Sobrenome"/>
+						
+						<p th:if="${#fields.hasErrors('nomeDeUsuario')}" th:errors="*{nomeDeUsuario}" class="erro"></p>
+						<input type="text" th:field="*{nomeDeUsuario}" placeholder="Nome de Usuário"/>
+						
+						<p th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}" class="erro"></p>
+						<input type="password" th:field="*{senha}" placeholder="Senha"/>
+						
+						<p th:if="${#fields.hasErrors('confirmaSenha')}" th:errors="*{confirmaSenha}" class="erro"></p>
+						<input type="password" th:field="*{confirmaSenha}" placeholder="Confirma senha"/>
+						
+						<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="erro"></p>
+						<input type="text" th:field="*{email}" placeholder="E-mail"/>
+						
+						<button type="submit">REGISTRAR</button>
+						<div th:if="${msg}" th:text="${msg}" th:class="${'alert ' + alertClass}"/></div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

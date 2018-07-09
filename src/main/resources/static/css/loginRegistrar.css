@@ -1,0 +1,79 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+@import url(https://fonts.googleapis.com/css?family=Cinzel);
+@charset "ISO-8859-1";
+
+.login-page {
+	width: 400px;
+	padding: 1% 0 0;
+	margin: auto;
+}
+
+.form {
+	position: relative;
+	z-index: 1;
+	background: #FFFFFF;
+	max-width: 400px;
+	margin: 0 auto 100px;
+	padding: 45px;
+	text-align: center;
+	box-shadow: 0 0 20px 0 rgba(0,0,0,0.2), 0 5px 5px 0 rgba(0,0,0,0.24);
+}
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: solid 1px #606060;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.form button {
+	font-family: "Roboto", sans-serif;
+	outline: 0;
+	background: #8C8C8C;
+	width: 100%;
+	border: 0;
+	padding: 15px;
+	color: #FFFFFF;
+	font-size: 14px;
+	-webkit-transition: all 0.3 ease;
+	transition: all 0.3 ease;
+	cursor: pointer;
+}
+.form button:hover,.form button:active,.form button:focus {
+  background: #606060;
+}
+.form .mensagem {
+	color: #000000;
+	font-size: 14px;
+}
+.form .mensagem a {
+	color: #8C8C8C;
+}
+.form .mensagem a:hover, .form mensagem a:active, .form mensagem a:focus {
+	color: #000000;
+}
+
+.titulo {
+	font-family: "Cinzel", sans-serif;
+	color: WHITE;
+	text-align: center;
+	font-size: 50px;
+    text-shadow: 5px 5px 10px BLACK;
+}
+
+.erro {
+	font-family: "Roboto", sans-serif;
+	font-size: 14px;
+	color: red;
+	margin: 0px;
+}
+
+body {
+  background: #606060; /* fallback for old browsers */
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;  
+}
