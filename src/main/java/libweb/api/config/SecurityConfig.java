@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
@@ -43,7 +44,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/css/**").authenticated()
 		.anyRequest().permitAll()
 		.and()
-		.formLogin().loginPage("/login").permitAll().successHandler(new CustomAuthenticationSuccessHandler());
+		.formLogin().loginPage("/login")
+			.permitAll()
+			.successHandler(new CustomAuthenticationSuccessHandler())
+		.and()
+		.logout()
+			.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
 	}
 	
 	private PasswordEncoder getPasswordEncoder() {
