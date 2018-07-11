@@ -10,7 +10,7 @@
 		
 		<div class="login-page">
 			<div class="form" th:fragment="content">
-				<form name="f" th:action="@{/login}" method="post" class="login-form">
+				<form name="f" th:action="@{/login}" method="post">
 					<fieldset>
 						<legend>Logar</legend>
 						<div th:if="${param.error}">

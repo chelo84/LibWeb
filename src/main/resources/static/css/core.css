@@ -1,0 +1,150 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+@charset "UTF-8";
+
+body {
+  background: #606060;
+  font-family: "Roboto", sans-serif;
+  color: WHITE;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;  
+  padding: 3px;
+  margin: 3px;
+}
+button:focus {
+	outline: 0 !important;
+}
+.active {
+	background-color: #000000 !important;
+}
+.btn {
+	text-align: center;
+	background: #8C8C8C;
+	color: WHITE;
+	border: none;
+}
+.btn:hover {
+	background: #606060;
+}
+.btn:active {
+	background: #000000;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+li {
+	
+}
+
+.painel-info-usuario {
+	background-color: #606060;
+    max-height: 10%;
+    border-bottom: 2px solid BLACK;
+}
+.painel-info-usuario li {
+	float: right;
+}
+.painel-info-usuario li p {
+	font-size: 14px;
+}
+
+.modal {
+    display: none;
+	position: fixed;
+	z-index: 1;
+	background: #FFFFFF;
+	max-width: 400px;
+	margin: 0 auto 100px;
+	margin-top: 10%;
+	margin-left: 40%;
+	text-align: center;
+	box-shadow: 0 0 20px 0 rgba(0,0,0,0.2), 0 5px 5px 0 rgba(0,0,0,0.24);
+	left: 0;
+	top: 0;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    width: 80%;
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.logout {
+	float:left;
+	background: #8C8C8C;
+	margin-top: 12px;
+}
+.logout a {
+	display: block;
+	padding: 10px;
+	text-decoration: none;
+}
+
+.painel-menu {
+	position: fixed;
+    width: 10%;
+    height: 100%;
+    overflow: auto;
+}
+.painel-menu a, .dropdown-a {
+	display: block;
+	text-align:center;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	border-bottom: 1px solid WHITE;
+	background: #8C8C8C;
+	text-decoration: none;
+	color: WHITE;
+	font-size: 18px;
+	cursor: pointer;
+}
+.painel-menu a:hover {
+	background-color: #606060;
+}
+.painel-menu a:active, .active {
+	background-color: #000000;
+}
+.dropdown-container {
+    display: none;
+    background-color: #242526;
+}
+.painel-menu .dropdown-container a {
+	background: #A1B2C3;
+}
+.painel-menu .dropdown-container a:hover {
+	background-color: #131f2b;
+}
+.painel-menu .dropdown-container a:active {
+	background-color: #131f2b;
+}
+.painel-menu .dropdown-container .a-active {
+	background-color: #131f2b;
+}
+
+.painel-output {
+	border-left: 2px solid BLACK;
+	position: fixed;
+	margin-left: 10%;
+	padding: 0 16px;
+	height: 100%;    
+	width: 100%;
+	background-color: WHITE;
+	color: BLACK;
+}

@@ -29,7 +29,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-	  web.ignoring().antMatchers("/css/**");
+	  web.ignoring().antMatchers("/css/**")
+	  .and()
+	  .ignoring().antMatchers("/js/**")
+	  .and()
+	  .ignoring().antMatchers("/api/**");
 	}
 	
 	@Override
@@ -49,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.successHandler(new CustomAuthenticationSuccessHandler())
 		.and()
 		.logout()
-			.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
+			.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout");
 	}
 	
 	private PasswordEncoder getPasswordEncoder() {

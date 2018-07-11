@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 @import url(https://fonts.googleapis.com/css?family=Cinzel);
-@charset "ISO-8859-1";
+@charset "UTF-8";
 
 .login-page {
 	width: 400px;
@@ -72,7 +72,7 @@
 }
 
 body {
-  background: #606060; /* fallback for old browsers */
+  background: #606060;
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;  

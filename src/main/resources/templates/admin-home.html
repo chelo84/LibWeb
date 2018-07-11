@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link href="../static/css/core.css" rel="stylesheet" type="text/css" th:href="@{/css/core.css}" />
+		<script type="text/javascript" th:src="@{/js/libweb.js}"></script>
+		<title>Admin</title>
+	</head>
+	<body>
+		<ul class="painel-info-usuario">
+			<div class="logout">
+				<li><a class="btn" href="/logout">Logout</a></li>
+			</div>
+			<li th:with="usuario=${#authentication.getPrincipal()}">
+				<p>
+					<span th:text="${usuario.getNome()}">Nome</span>
+					<span th:text="${usuario.getSobrenome()}">Sobrenome</span>
+				</p>
+				<p>
+				<span>Saldo: R$</span>
+				<span th:text="${usuario.getCarteira().getSaldo()}">Saldo</span>
+				<button class="btn">+</button>
+				</p>
+			</li>
+		</ul>
+		
+		<ul class="painel-menu">
+			<li><a class="active" href="#">Home</a></li>
+			<li><a class="dropdown-a">Admin</a></li>
+			<div id="dropdown-container" class="dropdown-container">
+				<a href="/edit-usuario">Editar Usuário</a>
+				<a href="#">Editar Livro</a>
+			</div>
+			<li><a href="#">Loja</a></li>
+			<li><a href="#">Meus Livros</a></li>
+			<li><a href="#">Configurações</a></li>
+		</ul>
+		
+		<div class="painel-output">
+			PAINEL DE OUTPUT
+		</div>
+	</body>
+</html>

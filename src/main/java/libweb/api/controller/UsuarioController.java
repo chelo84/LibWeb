@@ -1,8 +1,12 @@
 package libweb.api.controller;
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import de.mkammerer.argon2.Argon2;
@@ -76,8 +81,8 @@ public class UsuarioController {
 			usuario.setSenha(hash);
 			
 			Role role = new Role();
-			role.setId(new Long(2));
-			role.setRole("COMUM");
+			role.setId(new Long(1));
+			role.setRole("ADMIN");
 			usuario.setRole(role);
 			
 			usuarioCriado = usuarioRepository.save(usuario);
@@ -86,6 +91,18 @@ public class UsuarioController {
 			argon2.wipeArray(senha);
 		}
 		
-		return "registrarSucesso.html";
+		return "registrar-sucesso.html";
+	}
+	
+	@RequestMapping(value="/api/add-saldo", method=RequestMethod.POST) 
+	public String addSaldo(@RequestParam("quantidade") double quantidade, Model model) {
+		System.err.println(quantidade);
+		
+    	return "redirect:/home";
+	}
+	
+	@RequestMapping("/edit-usuario")
+	public String editUsuario() {
+		return "edit-usuario.html";
 	}
 }
