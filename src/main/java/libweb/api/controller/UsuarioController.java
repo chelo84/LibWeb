@@ -1,12 +1,12 @@
 package libweb.api.controller;
 
-import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,11 +21,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
+import libweb.api.model.CustomUserDetails;
+import libweb.api.model.usuario.Carteira;
 import libweb.api.model.usuario.Role;
 import libweb.api.model.usuario.Usuario;
 import libweb.api.model.usuario.UsuarioForm;
 import libweb.api.model.validator.UsuarioFormValidator;
+import libweb.api.repository.CarteiraRepository;
 import libweb.api.repository.UsuarioRepository;
+import libweb.api.service.utils.ServiceUtils;
 
 @Controller
 public class UsuarioController {
@@ -35,12 +39,12 @@ public class UsuarioController {
 	@Autowired
 	UsuarioFormValidator usuarioFormValidator;
 	
-	@Autowired
 	UsuarioRepository usuarioRepository;
 	
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
 		binder.setValidator(usuarioFormValidator);
+		usuarioRepository = ServiceUtils.getUsuarioRepository();
 	}
 	
 	@RequestMapping("/registrar")
@@ -81,8 +85,8 @@ public class UsuarioController {
 			usuario.setSenha(hash);
 			
 			Role role = new Role();
-			role.setId(new Long(1));
-			role.setRole("ADMIN");
+			role.setId(new Long(2));
+			role.setRole("COMUM");
 			usuario.setRole(role);
 			
 			usuarioCriado = usuarioRepository.save(usuario);
@@ -95,12 +99,22 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value="/api/add-saldo", method=RequestMethod.POST) 
-	public String addSaldo(@RequestParam("quantidade") double quantidade, Model model) {
-		System.err.println(quantidade);
+	public String addSaldo(@RequestParam("quantidade") double quantidade, Model model,
+						   HttpServletRequest request) {
+		CarteiraRepository carteiraRepository = ServiceUtils.getCarteiraRepository();
 		
-    	return "redirect:/home";
+		CustomUserDetails authUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		Carteira carteira = carteiraRepository.findById(authUser.getId()).get();
+		
+		carteira.setSaldo(carteira.getSaldo() + quantidade);
+		authUser.setCarteira(carteiraRepository.save(carteira));
+		
+		String currentPage = request.getHeader("Referer");
+		return "redirect:"+ currentPage;
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN', 'COMUM')")
 	@RequestMapping("/edit-usuario")
 	public String editUsuario() {
 		return "edit-usuario.html";

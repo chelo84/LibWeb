@@ -17,10 +17,19 @@
 					<span th:text="${usuario.getSobrenome()}">Sobrenome</span>
 				</p>
 				<p>
-				<span>Saldo: R$</span>
-				<span th:text="${usuario.getCarteira().getSaldo()}">Saldo</span>
-				<button class="btn">+</button>
+					<span>Saldo: R$</span>
+					<span th:text="${usuario.getCarteira().getSaldo()}">Saldo</span>
+					<button id="addSaldoBtn" class="btn">+</button>
 				</p>
+				<div id="addSaldoModal" class="modal">
+					<div class="modal-content">
+				    	<span class="close">&times;</span>
+						<form name="f" th:action="@{/api/add-saldo}" method="post">
+							<input type="number" step="0.01" min=0 id="quantidade" name="quantidade" placeholder="Quantidade para comprar"/>
+							<button class="btn" style="margin-top: 5px;"type="submit">Comprar</button>
+						</form>
+				  	</div>
+				</div>
 			</li>
 		</ul>
 		
