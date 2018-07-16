@@ -1,9 +1,9 @@
 package libweb.api.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,9 +14,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import de.mkammerer.argon2.Argon2;
@@ -29,26 +31,26 @@ import libweb.api.model.usuario.UsuarioForm;
 import libweb.api.model.validator.UsuarioFormValidator;
 import libweb.api.repository.CarteiraRepository;
 import libweb.api.repository.UsuarioRepository;
+import libweb.api.service.utils.Argon2Utils;
 import libweb.api.service.utils.ServiceUtils;
 
 @Controller
 public class UsuarioController {
 
-	private final Logger logger = LoggerFactory.getLogger(UsuarioController.class);
-	
 	@Autowired
 	UsuarioFormValidator usuarioFormValidator;
 	
+	@Autowired
 	UsuarioRepository usuarioRepository;
 	
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
 		binder.setValidator(usuarioFormValidator);
-		usuarioRepository = ServiceUtils.getUsuarioRepository();
 	}
 	
-	@RequestMapping("/registrar")
+	@RequestMapping(value="/registrar", method=RequestMethod.GET)
 	public String registrarForm(Model model) {
+		
 		UsuarioForm usuarioForm = new UsuarioForm();
 		model.addAttribute("usuarioForm", usuarioForm);
 		return "registrar.html";
@@ -59,8 +61,6 @@ public class UsuarioController {
     		BindingResult result, Model model,
     		final RedirectAttributes redirectAttributes) {
 		
-		logger.debug("registrarUsuario() : {}", usuarioForm);
-		
 		if (result.hasErrors()) {
 			return "registrar.html";
 		} else {
@@ -69,15 +69,11 @@ public class UsuarioController {
 		
 		Argon2 argon2 = Argon2Factory.create();
 		
-		final int ITERATIONS = 2;
-		final int MEMORY= 65536;
-		final int PARALLELISM = 1;
-		
 		char[] senha = usuarioForm.getSenha().toCharArray();
 		Usuario usuarioCriado = null;
 		
 		try {
-			String hash = argon2.hash(ITERATIONS, MEMORY, PARALLELISM, senha);
+			String hash = argon2.hash(Argon2Utils.ITERATIONS, Argon2Utils.MEMORY, Argon2Utils.PARALLELISM, senha);
 			
 			usuarioForm.setSenha(hash);
 			
@@ -101,6 +97,7 @@ public class UsuarioController {
 	@RequestMapping(value="/api/add-saldo", method=RequestMethod.POST) 
 	public String addSaldo(@RequestParam("quantidade") double quantidade, Model model,
 						   HttpServletRequest request) {
+		
 		CarteiraRepository carteiraRepository = ServiceUtils.getCarteiraRepository();
 		
 		CustomUserDetails authUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -114,9 +111,48 @@ public class UsuarioController {
 		return "redirect:"+ currentPage;
 	}
 	
-	@PreAuthorize("hasAnyRole('ADMIN', 'COMUM')")
-	@RequestMapping("/edit-usuario")
-	public String editUsuario() {
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	@RequestMapping("/usuarios")
+	public String usuarios(Model model) {
+		return "usuarios.html";
+	}
+	
+	@ModelAttribute("usuarios")
+	@ResponseBody
+	public List<Usuario> getAllUsuarios() {
+	    List<Usuario> listUsuario = usuarioRepository.findAll();
+	    
+	    return listUsuario;
+	}
+	
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	@RequestMapping(value="/edit-usuario/{id}", method=RequestMethod.GET)
+	public String editUsuario(@PathVariable Long id, Model model) {
+		
+		Usuario usuario = usuarioRepository.findById(id).get();
+		
+		UsuarioForm usuarioForm = new UsuarioForm(usuario);
+		model.addAttribute("usuario", usuarioForm);
+		model.addAttribute("usuarioForm", usuarioForm);
+		
 		return "edit-usuario.html";
+	}
+	
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	@RequestMapping(value="/edit-usuario/{id}", method=RequestMethod.POST)
+	public String editUsuario(@PathVariable Long id,
+			@ModelAttribute("usuarioForm") UsuarioForm usuarioForm,
+    		BindingResult result, Model model,
+    		final RedirectAttributes redirectAttributes) {
+		
+		if (result.hasErrors()) {
+			return "redirect:"+ id;
+		} else {
+			Usuario usuario = usuarioRepository.findById(id).get();
+			
+			usuarioForm.update(usuario, redirectAttributes, usuarioRepository);
+		}
+		
+		return "redirect:"+ id;
 	}
 }

@@ -2,14 +2,15 @@ package libweb.api.model.usuario;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @Table(name = "usuario")
@@ -27,8 +28,9 @@ public class Usuario {
 		
 	@Column(name = "nome_de_usuario")
 	private String nomeDeUsuario;
-		
+	
 	@Column(name = "senha")
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private String senha;
 		
 	@OneToOne()
@@ -87,7 +89,7 @@ public class Usuario {
 	public void setNomeDeUsuario(String nomeDeUsuario) {
 		this.nomeDeUsuario = nomeDeUsuario;
 	}
-
+	
 	public String getSenha() {
 		return senha;
 	}

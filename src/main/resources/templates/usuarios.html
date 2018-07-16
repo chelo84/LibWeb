@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link href="../static/css/core.css" rel="stylesheet" type="text/css" th:href="@{/css/core.css}" />
+		<script src="webjars/jquery/2.1.4/jquery.min.js"></script>
+		<script type="text/javascript" th:src="@{/js/libweb.js}"></script>
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			var usuarios = [[${usuarios}]];
+			
+			$(document).ready(function() {
+				for(var i = 0; i < usuarios.length; i++) {
+					usuario = usuarios[i];
+					
+					var row = $('<tr>');
+					
+					var id = usuario.id;
+					var nome = usuario.nome;
+					var sobrenome = usuario.sobrenome;
+					var nomeDeUsuario = usuario.nomeDeUsuario;
+					var role = usuario.role.role;
+					var email = usuario.email;
+					
+					row.append($("<td class='padding-cols'>"+ id +"</td>"))
+					   	.append($("<td class='padding-cols'>"+ nome +"</td>"))
+					   	.append($("<td class='padding-cols'>"+ sobrenome +"</td>"))
+					    .append($("<td class='padding-cols'>"+ nomeDeUsuario +"</td>"))
+					    .append($("<td class='padding-cols'>"+ role +"</td>"))
+					    .append($("<td class='padding-cols'>"+ email +"</td>"))
+					    .append($("<td class='botao-editar'><a href='/edit-usuario/"+ id +"'>"
+					    		+"<i class='material-icons' style='font-size: inherit;'>edit</i>"
+					    	+"</a>"+
+					    +"</td>"));
+					
+					$("#table-usuarios tbody").append(row);
+				}
+				
+				$("#inputFilter").on("keyup", function() {
+				    var inputValue = $(this).val().toLowerCase();
+				    $("#table-usuarios tbody tr").filter(function() {
+				    	$(this).toggle($(this).text().toLowerCase().indexOf(inputValue) > -1)
+				    });
+				});
+			})
+			/*]]>*/
+		</script>
+		<title>Editar Usuário</title>
+	</head>
+	<body>
+		<ul class="painel-info-usuario">
+			<div class="logout">
+				<li><a class="btn" href="/logout">Logout</a></li>
+			</div>
+			<li th:with="usuario=${#authentication.getPrincipal()}">
+				<p>
+					<span th:text="${usuario.getNome()}">Nome</span>
+					<span th:text="${usuario.getSobrenome()}">Sobrenome</span>
+				</p>
+				<p>
+					<span>Saldo: R$</span>
+					<span th:text="${usuario.getCarteira().getSaldo()}">Saldo</span>
+					<button id="addSaldoBtn" class="btn">+</button>
+				</p>
+				<div id="addSaldoModal" class="modal">
+					<div class="modal-content">
+				    	<span class="close">&times;</span>
+						<form name="f" th:action="@{/api/add-saldo}" method="post">
+							<input type="number" step="0.01" min=0 id="quantidade" name="quantidade" placeholder="Quantidade para comprar"/>
+							<button class="btn" style="margin-top: 5px;"type="submit">Comprar</button>
+						</form>
+				  	</div>
+				</div>
+			</li>
+		</ul>
+		
+		<ul class="painel-menu">
+			<li><a href="/admin">Home</a></li>
+			<li><a class="dropdown-a active">Admin</a></li>
+			<div id="dropdown-container" class="dropdown-container" style="display: block;">
+				<a class="a-active" href="/usuarios">Editar Usuário</a>
+				<a href="#">Editar Livro</a>
+			</div>
+			<li><a href="#">Loja</a></li>
+			<li><a href="#">Meus Livros</a></li>
+			<li><a href="#">Configurações</a></li>
+		</ul>
+		
+		<div class="painel-output">
+			<span>
+				<input id="inputFilter" type="text" placeholder="Buscar..." style="margin-bottom: 5px;"/>
+			</span>
+			<table id="table-usuarios">
+				<thead>
+					<tr>
+						<th class="padding-cols">Id</th>
+						<th class="padding-cols">Nome</th>
+						<th class="padding-cols">Sobrenome</th>
+						<th class="padding-cols">Usuário</th>
+						<th class="padding-cols">Role</th>
+						<th class="padding-cols">E-mail</th>
+						<th class="padding-cols">Editar</th>
+					</tr>
+				</thead>
+				<tbody class="table-usuarios" >
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>

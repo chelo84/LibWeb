@@ -17,6 +17,7 @@ import de.mkammerer.argon2.Argon2Factory;
 import libweb.api.model.CustomAuthenticationSuccessHandler;
 import libweb.api.repository.UsuarioRepository;
 import libweb.api.service.CustomUserDetailsService;
+import libweb.api.service.utils.Argon2Utils;
 
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
@@ -60,13 +61,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			
 			private final Argon2 ARGON2 = Argon2Factory.create();
 			
-			private static final int ITERATIONS = 2;
-			private static final int MEMORY= 65536;
-			private static final int PARALLELISM = 1;
-			
 			@Override
 			public String encode(CharSequence rawPassword) {
-				final String hash = ARGON2.hash(ITERATIONS, MEMORY, PARALLELISM, rawPassword.toString());
+				final String hash = ARGON2.hash(Argon2Utils.ITERATIONS, Argon2Utils.MEMORY, Argon2Utils.PARALLELISM, rawPassword.toString());
 				return hash;
 			}
 

@@ -1,4 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 @charset "UTF-8";
 
 body {
@@ -9,6 +10,9 @@ body {
   -moz-osx-font-smoothing: grayscale;  
   padding: 3px;
   margin: 3px;
+}
+button {
+	cursor: pointer !important;
 }
 button:focus {
 	outline: 0 !important;
@@ -21,6 +25,7 @@ button:focus {
 	background: #8C8C8C;
 	color: WHITE;
 	border: none;
+	padding: 10px;
 }
 .btn:hover {
 	background: #606060;
@@ -49,6 +54,12 @@ li {
 }
 .painel-info-usuario li p {
 	font-size: 14px;
+}
+.painel-info-usuario .btn {
+	padding: 1px 6px;
+}
+.painel-info-usuario .logout .btn {
+	padding: 6px;
 }
 
 .modal {
@@ -142,9 +153,42 @@ li {
 	border-left: 2px solid BLACK;
 	position: fixed;
 	margin-left: 10%;
-	padding: 0 16px;
+	padding: 16px 16px;
 	height: 100%;    
 	width: 100%;
 	background-color: WHITE;
 	color: BLACK;
+	overflow: auto;
+}
+thead .padding-cols{
+	border-top: 2px solid BLACK;
+}
+.painel-output .padding-cols {
+	text-align: center;
+	padding: 0 20px 0 20px;
+	border-bottom: 2px solid BLACK;
+	border-left: 2px solid BLACK;
+}
+.table-usuarios .botao-editar {
+	text-align: center;
+	border-bottom: 2px solid BLACK;
+	border-left: 2px solid BLACK;
+}
+.painel-output .edit-usuario-label {
+	display: inline-block;
+	width: 150px;
+}
+.painel-output .edit-usuario-input {
+	display: inline-block;
+	width: 250px
+}
+.sucesso {
+	display: inline-block;
+	font-size: 13px;
+	color: GREEN;
+}
+.erro {
+	display: inline-block;
+	font-size: 13px;
+	color: RED;
 }
