@@ -26,12 +26,17 @@ button:focus {
 	color: WHITE;
 	border: none;
 	padding: 10px;
+	text-decoration: none;
 }
 .btn:hover {
 	background: #606060;
 }
 .btn:active {
 	background: #000000;
+}
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; 
 }
 
 ul {
@@ -169,19 +174,34 @@ thead .padding-cols{
 	border-bottom: 2px solid BLACK;
 	border-left: 2px solid BLACK;
 }
-.table-usuarios .botao-editar {
+table .botao-editar {
 	text-align: center;
 	border-bottom: 2px solid BLACK;
 	border-left: 2px solid BLACK;
 }
-.painel-output .edit-usuario-label {
+.painel-output .form-label {
 	display: inline-block;
 	width: 150px;
 }
-.painel-output .edit-usuario-input {
+.painel-output .form-input {
 	display: inline-block;
 	width: 250px
 }
+.btn-novo-livro {
+	margin-left: 60px;
+	background: #06ff02;
+	color: BLACK;
+	border: none;
+	padding: 4px;
+	font-weight: bold;
+}
+.btn-novo-livro:hover {
+	background: #06ff02;
+}
+.btn-novo-livro:active {
+	background: #02ad00;
+}
+
 .sucesso {
 	display: inline-block;
 	font-size: 13px;

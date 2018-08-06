@@ -7,45 +7,56 @@
 		<script type="text/javascript" th:src="@{/js/libweb.js}"></script>
 		<script th:inline="javascript">
 			/*<![CDATA[*/
-			var usuarios = [[${usuarios}]];
+			var livros = [[${livros}]];
 			
 			$(document).ready(function() {
-				for(var i = 0; i < usuarios.length; i++) {
-					var usuario = usuarios[i];
+				for(var i = 0; i < livros.length; i++) {
+					var livro = livros[i];
 					
 					var row = $('<tr>');
 					
-					var id = usuario.id;
-					var nome = usuario.nome;
-					var sobrenome = usuario.sobrenome;
-					var nomeDeUsuario = usuario.nomeDeUsuario;
-					var role = usuario.role.role;
-					var email = usuario.email;
+					var id = livro.id;
+					var nome = livro.nome;
+					var autor = livro.autor.nome +" "+ livro.autor.sobrenome;
+					var lancamento = transformarData(livro.dataDeLancamento);
+					var preco = livro.preco;
+					var disponivel = livro.disponivel;
+					var categorias = livro.categorias;
 					
 					row.append($("<td class='padding-cols'>"+ id +"</td>"))
 					   	.append($("<td class='padding-cols'>"+ nome +"</td>"))
-					   	.append($("<td class='padding-cols'>"+ sobrenome +"</td>"))
-					    .append($("<td class='padding-cols'>"+ nomeDeUsuario +"</td>"))
-					    .append($("<td class='padding-cols'>"+ role +"</td>"))
-					    .append($("<td class='padding-cols'>"+ email +"</td>"))
-					    .append($("<td class='botao-editar'><a href='/edit-usuario/"+ id +"'>"
+					   	.append($("<td class='padding-cols'>"+ autor +"</td>"))
+					    .append($("<td class='padding-cols'>"+ lancamento +"</td>"))
+					    .append($("<td class='padding-cols'>R$ "+ preco.toFixed(2) +"</td>"))
+					    .append($("<td class='padding-cols'>"+ disponivel +"</td>"));
+					
+					var stringCategorias = "<td class='padding-cols' style='display: block; max-height: 70px; max-width: 80px; overflow: auto;'>";
+					for(var j = 0; j < (categorias.length-1); j++) {
+						stringCategorias += categorias[j].nome +", "; 
+					}
+					stringCategorias += categorias[categorias.length-1].nome +"</td>";
+					
+					console.log(stringCategorias);
+					
+					row.append($(stringCategorias))
+					    .append($("<td class='botao-editar'><a href='/edit-livro/"+ id +"'>"
 					    		+"<i class='material-icons' style='font-size: inherit;'>edit</i>"
 					    	+"</a>"+
 					    +"</td></tr>"));
 					
-					$("#table-usuarios tbody").append(row);
+					$("#table-livros tbody").append(row);
 				}
 				
 				$("#inputFilter").on("keyup", function() {
 				    var inputValue = $(this).val().toLowerCase();
-				    $("#table-usuarios tbody tr").filter(function() {
+				    $("#table-livros tbody tr").filter(function() {
 				    	$(this).toggle($(this).text().toLowerCase().indexOf(inputValue) > -1)
 				    });
 				});
 			})
 			/*]]>*/
 		</script>
-		<title>Usuários</title>
+		<title>Livros</title>
 	</head>
 	<body>
 		<ul class="painel-info-usuario">
@@ -78,8 +89,8 @@
 			<li><a href="/admin">Home</a></li>
 			<li><a class="dropdown-a active">Admin</a></li>
 			<div id="dropdown-container" class="dropdown-container" style="display: block;">
-				<a class="a-active" href="/usuarios">Editar Usuário</a>
-				<a href="/livros">Add/Editar Livro</a>
+				<a href="/usuarios">Editar Usuário</a>
+				<a class="a-active" href="/livros">Add/Editar Livro</a>
 			</div>
 			<li><a href="#">Loja</a></li>
 			<li><a href="#">Meus Livros</a></li>
@@ -89,20 +100,23 @@
 		<div class="painel-output">
 			<span>
 				<input id="inputFilter" type="text" placeholder="Buscar..." style="margin-bottom: 5px;"/>
+				<a class="btn btn-novo-livro" href="/novo-livro">Novo Livro</a>
 			</span>
-			<table id="table-usuarios">
+			<br /><p th:if="${msg} != null" class="sucesso" th:text="${msg}"></p>
+			<table id="table-livros">
 				<thead>
 					<tr>
 						<th class="padding-cols">Id</th>
 						<th class="padding-cols">Nome</th>
-						<th class="padding-cols">Sobrenome</th>
-						<th class="padding-cols">Usuário</th>
-						<th class="padding-cols">Role</th>
-						<th class="padding-cols">E-mail</th>
+						<th class="padding-cols">Autor</th>
+						<th class="padding-cols">Lançamento</th>
+						<th class="padding-cols">Preço</th>
+						<th class="padding-cols">Disponivel</th>
+						<th class="padding-cols">Categorias</th>
 						<th class="padding-cols">Editar</th>
 					</tr>
 				</thead>
-				<tbody class="table-usuarios" >
+				<tbody class="table-livros">
 				</tbody>
 			</table>
 		</div>

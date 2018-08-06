@@ -4,7 +4,7 @@
 	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link href="../static/css/core.css" rel="stylesheet" type="text/css" th:href="@{/css/core.css}" />
 		<script type="text/javascript" th:src="@{/js/libweb.js}"></script>
-		<title>Admin</title>
+		<title>Editar Usuário</title>
 	</head>
 	<body>
 		<ul class="painel-info-usuario">
@@ -38,7 +38,7 @@
 			<li><a class="dropdown-a active">Admin</a></li>
 			<div id="dropdown-container" class="dropdown-container" style="display: block;">
 				<a class="a-active" href="/usuarios">Editar Usuário</a>
-				<a href="#">Editar Livro</a>
+				<a href="/livros">Add/Editar Livro</a>
 			</div>
 			<li><a href="#">Loja</a></li>
 			<li><a href="#">Meus Livros</a></li>
@@ -48,38 +48,38 @@
 		<div class="painel-output">
 			<form name="f" th:action="@{|/edit-usuario/${usuario.id}|}" th:object="${usuarioForm}" method="post">
 				<div style="margin-bottom: 10px;">
-					<label class="edit-usuario-label">Nome</label>
-					<input class="edit-usuario-input" th:field="*{nome}" name="nome" id="nome" th:value="${usuario.nome}" />
+					<label class="form-label">Nome</label>
+					<input class="form-input" th:field="*{nome}" name="nome" id="nome" th:value="${usuario.nome}" />
 					<label th:if="${nomeSucesso != null and nomeSucesso == false}" class="erro">Não foi possivel modificar o nome</label>
 					<label th:if="${nomeSucesso == true}" class="sucesso">Nome modificado com sucesso</label>
 				</div>
 				<div style="margin-bottom: 10px;">					
-					<label class="edit-usuario-label">Sobrenome</label>
-					<input class="edit-usuario-input" th:field="*{sobrenome}" name="sobrenome" id="sobrenome" th:value="${usuario.sobrenome}" />
+					<label class="form-label">Sobrenome</label>
+					<input class="form-input" th:field="*{sobrenome}" name="sobrenome" id="sobrenome" th:value="${usuario.sobrenome}" />
 					<label th:if="${sobrenomeSucesso != null and sobrenomeSucesso == false}" class="erro">Não foi possivel modificar o sobrenome</label>
 					<label th:if="${sobrenomeSucesso == true}" class="sucesso">Sobrenome modificado com sucesso</label>
 				</div>
 				<div style="margin-bottom: 10px;">					
-					<label class="edit-usuario-label">Nome de usuário</label>
-					<input class="edit-usuario-input" th:field="*{nomeDeUsuario}" name="nomeDeUsuario" id="nomeDeUsuario" th:value="${usuario.nomeDeUsuario}" />
+					<label class="form-label">Nome de usuário</label>
+					<input class="form-input" th:field="*{nomeDeUsuario}" name="nomeDeUsuario" id="nomeDeUsuario" th:value="${usuario.nomeDeUsuario}" />
 					<label th:if="${nomeDeUsuarioSucesso != null and nomeDeUsuarioSucesso == false}" class="erro">Não foi possivel modificar o nome de usuário</label>
 					<label th:if="${nomeDeUsuarioSucesso == true}" class="sucesso">Nome de usuário modificado com sucesso</label>
 				</div>
 				<div style="margin-bottom: 10px;">
-					<label class="edit-usuario-label">E-mail</label>
-					<input class="edit-usuario-input" th:field="*{email}" name="email" id="email" th:value="${usuario.email}" />
+					<label class="form-label">E-mail</label>
+					<input class="form-input" th:field="*{email}" name="email" id="email" th:value="${usuario.email}" />
 					<label th:if="${emailSucesso != null and emailSucesso == false}" class="erro">Não foi possivel modificar o e-mail</label>
 					<label th:if="${emailSucesso == true}" class="sucesso">E-mail modificado com sucesso</label>
 				</div>
 				<div style="margin-bottom: 10px;">
-					<label class="edit-usuario-label">Nova senha</label>
-					<input class="edit-usuario-input" th:field="*{senha}" type="password" name="senha" id="senha" placeholder="Nova senha" />
+					<label class="form-label">Nova senha</label>
+					<input class="form-input" th:field="*{senha}" type="password" name="senha" id="senha" placeholder="Nova senha" />
 					<label th:if="${senhaSucesso != null and senhaSucesso == false}" class="erro">Não foi possivel modificar a senha</label>
 					<label th:if="${senhaSucesso == true}" class="sucesso">Senha modificada com sucesso</label>
 				</div>
 				<div style="margin-bottom: 10px;">
-					<label class="edit-usuario-label">Confirma</label>
-					<input class="edit-usuario-input" th:field="*{confirmaSenha}" type="password" name="confirmaSenha" id="confirmaSenha" placeholder="Confirma senha" />
+					<label class="form-label">Confirma</label>
+					<input class="form-input" th:field="*{confirmaSenha}" type="password" name="confirmaSenha" id="confirmaSenha" placeholder="Confirma senha" />
 					<label th:if="${confirmaSenhaSucesso != null and confirmaSenhaSucesso == false}" class="erro">Senha e confirmação não conferem! </label>
 				</div>
 				<button type="submit" class="btn" style="width: 410px">Editar</button>

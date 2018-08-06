@@ -38,3 +38,16 @@ window.addEventListener('load', function() {
 	    }
 	}
 });
+
+function transformarData(dataRecebida) {
+	var data = new Date(dataRecebida);
+	
+	var dia = data.getDate()+1;
+	dia = (dia < 10) ? "0"+ dia : dia;
+	
+	var mes = data.getMonth()+1;
+	mes = (mes < 10) ? "0"+ mes : mes;
+	var ano = data.getFullYear();
+	
+	return dia +"/"+ mes +"/"+ ano;
+}

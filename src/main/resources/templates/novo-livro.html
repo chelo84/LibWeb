@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link href="../static/css/core.css" rel="stylesheet" type="text/css" th:href="@{/css/core.css}" />
+		<script src="webjars/jquery/2.1.4/jquery.min.js"></script>
+		<script type="text/javascript" th:src="@{/js/libweb.js}"></script>
+		<title>Add Livro</title>
+	</head>
+	<body>
+		<ul class="painel-info-usuario">
+			<div class="logout">
+				<li><a class="btn" href="/logout">Logout</a></li>
+			</div>
+			<li th:with="usuario=${#authentication.getPrincipal()}">
+				<p>
+					<span th:text="${usuario.getNome()}">Nome</span>
+					<span th:text="${usuario.getSobrenome()}">Sobrenome</span>
+				</p>
+				<p>
+					<span>Saldo: R$</span>
+					<span th:text="${usuario.getCarteira().getSaldo()}">Saldo</span>
+					<button id="addSaldoBtn" class="btn">+</button>
+				</p>
+				<div id="addSaldoModal" class="modal">
+					<div class="modal-content">
+				    	<span class="close">&times;</span>
+						<form name="f" th:action="@{/api/add-saldo}" method="post">
+							<input type="number" step="0.01" min=0 id="quantidade" name="quantidade" placeholder="Quantidade para comprar"/>
+							<button class="btn" style="margin-top: 5px;"type="submit">Comprar</button>
+						</form>
+				  	</div>
+				</div>
+			</li>
+		</ul>
+		
+		<ul class="painel-menu">
+			<li><a href="/admin">Home</a></li>
+			<li><a class="dropdown-a active">Admin</a></li>
+			<div id="dropdown-container" class="dropdown-container" style="display: block;">
+				<a href="/usuarios">Editar Usuário</a>
+				<a class="a-active" href="/livros">Add/Editar Livro</a>
+			</div>
+			<li><a href="#">Loja</a></li>
+			<li><a href="#">Meus Livros</a></li>
+			<li><a href="#">Configurações</a></li>
+		</ul>
+		
+		<div class="painel-output">
+			<form name="f" th:action="@{/novo-livro}" th:object="${livroForm}" method="post">
+				<div style="margin-bottom: 10px;">
+					<label class="form-label">Nome</label>
+					<input class="form-input" th:field="*{nome}" placeholder="Nome do livro" />
+					<p th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="erro" />
+				</div>
+				
+				<div style="margin-bottom: 10px;">
+					<label class="form-label">Autor</label>
+					<input list="nome-autores" style="width: 100px;" th:field="*{autor.nome}" placeholder="Nome" autocomplete="off">
+					<datalist id="nome-autores">
+						<script th:inline="javascript">
+							var autores = [[${autores}]];
+							
+							for(var i = 0; i < autores.length; i++) {
+								var autor = autores[i];
+								var option =  $('<option value="'+ autor.nome +'"></option>');
+								$('#nome-autores').append(option);
+							}
+						</script>
+					</datalist>
+					
+					<input list="sobrenome-autores" style="width: 100px;" th:field="*{autor.sobrenome}" placeholder="Sobrenome" autocomplete="off">
+					<datalist id="sobrenome-autores">
+						<script th:inline="javascript">
+							var autores = [[${autores}]];
+							
+							for(var i = 0; i < autores.length; i++) {
+								var autor = autores[i];
+								var option =  $('<option value="'+ autor.sobrenome +'"></option>');
+								$('#sobrenome-autores').append(option);
+							}
+						</script>
+					</datalist>
+					
+					<input type="checkbox" th:field="*{novoAutor}">Novo Autor</input>
+					<p th:if="${#fields.hasErrors('autor')}" th:errors="*{autor}" class="erro" />
+				</div>
+				
+				<div style="margin-bottom: 10px;">
+					<label class="form-label">Data de lançamento</label>
+					<input class="form-input" type="date" style="cursor: text;" th:field="*{dataDeLancamento}" />
+					<p th:if="${#fields.hasErrors('dataDeLancamento')}" th:errors="*{dataDeLancamento}" class="erro" />
+				</div>
+				
+				<div style="margin-bottom: 10px;">
+					<label class="form-label">Imagem (URL)</label>
+					<input class="form-input" th:field="*{imgUrl}" placeholder="Url da imagem da capa do livro" />
+					<p th:if="${#fields.hasErrors('imgUrl')}" th:errors="*{imgUrl}" class="erro" />
+				</div>
+				
+				<div style="margin-bottom: 10px;">
+					<label class="form-label">Preço</label>
+					<input class="form-input" type="number" step="0.01" min=0 th:field="*{preco}" placeholder="0.00"/>
+					<p th:if="${#fields.hasErrors('preco')}" th:errors="*{preco}" class="erro" />
+				</div>
+				
+				<div style="margin-bottom: 10px;">
+					<label class="form-label" style="vertical-align: top;">Categorias</label>
+					<textarea class="form-input" th:field="*{categorias}" placeholder="Ex: fantasia, ação, romance, .."></textarea>
+					<p th:if="${#fields.hasErrors('categorias')}" th:errors="*{categorias}" class="erro" />
+				</div>
+				
+				<button class="btn" type="submit">Adicionar Livro</button>
+			</form>
+		</div>
+	</body>
+</html>
